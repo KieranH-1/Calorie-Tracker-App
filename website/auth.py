@@ -1,4 +1,6 @@
 from flask import Blueprint, render_template, request, flash
+from .models import User
+from werkzeug.security import generate_password_hash, check_password_hash
 
 auth = Blueprint('auth', __name__)
 
@@ -14,7 +16,6 @@ def logout():
 def sign_up():
     if request.method == 'POST':
         email = request.form.get('email')
-        first_name = request.form.get('first_name')
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
 
@@ -22,12 +23,17 @@ def sign_up():
             flash('Please enter a valid email address.', category='error')
         elif " " in email:
             flash('Email must not contain spaces.', category='error')
+        elif len(email) > 150:
+            flash('Email must be less than 150 characters.', category='error')
         elif not is_valid_password(password):
             flash('Please enter a valid password.', category='error')
         elif password != confirm_password:
-            flash('Passwords don\'t match.', category='error')    
+            flash('Passwords don\'t match.', category='error')   
+        elif len(password) > 150:
+            flash('Password must be less than 150 characters.', category='error')
         else:
             #add user to database
+            new_user = User(email=email, password=password)
             flash('Account created!', category='success')
             pass
     
