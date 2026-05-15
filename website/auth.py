@@ -1,15 +1,49 @@
-from flask import Blueprint
+from flask import Blueprint, render_template, request, flash
 
 auth = Blueprint('auth', __name__)
 
-@auth.route('/login')
+@auth.route('/login', methods=['GET', 'POST'])
 def login():
-    return "<h1>Login</h1>"
+    return render_template("login.html", text="Testing", user="Kieran", boolean=True)
 
 @auth.route('/logout')
 def logout():
     return "<h1>Logout</h1>"
 
-@auth.route('/sign-up')
+@auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
-    return "<h1>Sign Up</h1>"
+    if request.method == 'POST':
+        email = request.form.get('email')
+        first_name = request.form.get('first_name')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+
+        if email.__contains__('@') == False or email.__contains__('.') == False:
+            flash('Please enter a valid email address.', category='error')
+        elif " " in email:
+            flash('Email must not contain spaces.', category='error')
+        elif not is_valid_password(password):
+            flash('Please enter a valid password.', category='error')
+        elif password != confirm_password:
+            flash('Passwords don\'t match.', category='error')    
+        else:
+            #add user to database
+            flash('Account created!', category='success')
+            pass
+    
+    return render_template("sign_up.html")
+
+def is_valid_password(password):
+    if len(password) < 7:
+        return False
+    if " " in password:
+        return False
+    if not any(char.isupper() for char in password):
+        return False
+    if not any(char.islower() for char in password):
+        return False
+    if not any(char.isdigit() for char in password):
+        return False
+    if not any(char in "!@#$%^&*()_+-=[]{}|;':\"<>,.?/" for char in password):
+        return False
+    return True
