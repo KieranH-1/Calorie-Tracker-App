@@ -1,11 +1,26 @@
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 from .models import User
+from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
+
 
 auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        user = User.query.filter_by(email=email).first()
+        if user:
+            if check_password_hash(user.password, password):
+                flash('Logged in successfully!', category='success')
+                return redirect(url_for('views.home'))
+            else:
+                flash('Incorrect password, try again.', category='error')
+        else:
+            flash('Email does not exist.', category='error')
     return render_template("login.html", text="Testing", user="Kieran", boolean=True)
 
 @auth.route('/logout')
@@ -19,7 +34,10 @@ def sign_up():
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
 
-        if email.__contains__('@') == False or email.__contains__('.') == False:
+        user = User.query.filter_by(email=email).first()
+        if user: 
+            flash('Email already exists.', category='error')
+        elif email.__contains__('@') == False or email.__contains__('.') == False:
             flash('Please enter a valid email address.', category='error')
         elif " " in email:
             flash('Email must not contain spaces.', category='error')
@@ -33,9 +51,11 @@ def sign_up():
             flash('Password must be less than 150 characters.', category='error')
         else:
             #add user to database
-            new_user = User(email=email, password=password)
+            new_user = User(email=email, password=generate_password_hash(password))
+            db.session.add(new_user)
+            db.session.commit()
             flash('Account created!', category='success')
-            pass
+            return redirect(url_for('views.home'))
     
     return render_template("sign_up.html")
 
