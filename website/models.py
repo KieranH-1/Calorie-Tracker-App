@@ -12,12 +12,12 @@ class User(db.Model, UserMixin):
 class Food(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150))
+    category = db.Column(db.String(150))
     calories = db.Column(db.Integer)
     carbohydrates = db.Column(db.Float)
     protein = db.Column(db.Float)
     fat = db.Column(db.Float)
     fiber = db.Column(db.Float)
-    sugar = db.Column(db.Float)
 
 class UserFood(db.Model):
     id = db.Column(db.Integer, primary_key=True)

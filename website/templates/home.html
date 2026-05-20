@@ -1,5 +1,16 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
 %}
-<h1>Home</h1>
-<p>Welcome to the home page!</p>
+<h1 align="center">Tracker</h1>
+<ul class="list-group list-group-flush" id="todays-food">
+  {% for food in user.todays_foods %}
+  <li class="list-group-item">{{ food.data }}</li>
+  {% endfor %}
+</ul>
+<form method="POST">
+  <textarea name="food" id="food" class="form-control"></textarea>
+  <br />
+  <div align="center">
+    <button type="submit" class="btn btn-primary mt-3">Add Food</button>
+  </div>
+</form>
 {% endblock %}

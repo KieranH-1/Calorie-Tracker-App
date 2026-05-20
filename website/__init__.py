@@ -22,6 +22,7 @@ def create_app():
 
     from .models import User, Food, UserFood
 
+
     create_database(app)
 
     login_manager = LoginManager()
@@ -36,7 +37,9 @@ def create_app():
     return app
 
 def create_database(app):
+    from .seed import seed_foods
     if not path.exists(DB_PATH):
         with app.app_context():
             db.create_all()
+            seed_foods(app)
         print('Created Database!')
