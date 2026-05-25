@@ -1,16 +1,40 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
 %}
-<h1 align="center">Tracker</h1>
+<h1 id="tracker-title" align="center">Tracker</h1>
 <ul class="list-group list-group-flush" id="todays-food">
-  {% for food in user.todays_foods %}
-  <li class="list-group-item">{{ food.data }}</li>
+  {% for food in user.user_foods %}
+  <li class="list-group-item">{{ food.name }}</li>
   {% endfor %}
 </ul>
-<form method="POST">
+<form method="POST" id="food_input" class="bg-dark" align="center">
+  <label for="food" id="food_label" class="form-label mt-3">Food:</label>
   <textarea name="food" id="food" class="form-control"></textarea>
+  <label id="grams_label" for="grams4" class="form-label mt-3">Grams:</label>
+  <input
+    type="range"
+    id="grams_input"
+    class="form-range mt-3"
+    name="grams"
+    min="0"
+    max="200"
+    value="100"
+    step="1"
+  />
+  <output for="grams4" id="grams_output">100</output>
+  <label for="date" id="date_label" class="form-label mt-3">Date:</label>
+  <input type="date" id="date" class="form-control mt-3" name="date" />
+  <label for="meal" id="meal_label" class="form-label mt-3">Meal:</label>
+  <select name="meal" id="meal" class="form-control mt-3">
+    <option value="breakfast">Breakfast</option>
+    <option value="lunch">Lunch</option>
+    <option value="dinner">Dinner</option>
+    <option value="snack">Snack</option>
+  </select>
   <br />
   <div align="center">
-    <button type="submit" class="btn btn-primary mt-3">Add Food</button>
+    <button type="submit" class="btn btn-primary mt-3" id="add_food_button">
+      Add Food
+    </button>
   </div>
 </form>
 {% endblock %}

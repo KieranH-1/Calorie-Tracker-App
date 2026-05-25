@@ -9,6 +9,7 @@ DB_NAME = "database.db"
 DB_PATH = path.join(BASE_DIR, DB_NAME)
 
 def create_app():
+    print(f"Database path: {DB_PATH}")  # Debugging line to check the database path
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'whatever'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_PATH}'

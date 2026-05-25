@@ -1,0 +1,67 @@
+/* Base styles */
+#content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Styles for home page */
+#food_input {
+  display: flex;
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  border-radius: 20px;
+}
+
+#food,
+#date,
+#time {
+  resize: none;
+  font-size: 16px;
+  height: 2.2em;
+  margin-right: 10px;
+  align-self: center;
+}
+
+#food {
+  width: 294px;
+}
+
+#date {
+  width: 150px;
+  margin-bottom: 16px;
+}
+
+#meal {
+  width: 100px;
+  margin-bottom: 16px;
+  margin-right: 10px;
+}
+
+#grams_input {
+  margin-right: 10px;
+  margin-bottom: 16px;
+  width: 150px;
+}
+
+#add_food_button {
+  margin-bottom: 16px;
+}
+
+#grams_label,
+#date_label,
+#meal_label,
+#food_label {
+  margin-right: 5px;
+  margin-bottom: 20px;
+  color: white;
+}
+
+#grams_output {
+  color: white;
+  margin-right: 10px;
+  min-width: 27px;
+  margin-bottom: 3px;
+}
